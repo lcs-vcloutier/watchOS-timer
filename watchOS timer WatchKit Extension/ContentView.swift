@@ -36,7 +36,39 @@ struct SecondView: View{
     @State var timerVal:Int
     var body: some View {
         VStack{
-            
+            //if timer is on
+            if timerVal > 0 {
+                Text("Time remaining")
+                    .font(.system(size: 14))
+                //show time left
+                Text("\(timerVal)")
+                    .font(.system(size: 40))
+                    //on appear keep reducing it each second
+                    .onAppear(){
+                        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                            if self.timerVal > 0 {
+                                self.timerVal -= 1
+                            }
+                        }
+                    }
+                Text("seconds")
+                    .font(.system(size: 14))
+                //cancel button that sends us back to first view
+                Button(action: {
+                    self.secondScreenShown = false
+                }) {
+                    Text("Cancel")
+                        .foregroundColor(.red)
+                }
+            } else {
+                //done button that sends us back to first view
+                Button(action: {
+                    self.secondScreenShown = false
+                }) {
+                    Text("Done")
+                        .foregroundColor(.green)
+                }
+            }
         }
     }
 }
